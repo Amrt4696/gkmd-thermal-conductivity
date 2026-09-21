@@ -1,0 +1,77 @@
+log             equil_${label}.log
+
+units           metal
+dimension       3
+boundary        p p p
+atom_style      charge
+newton          on
+
+# --- edit these per P-T point ---
+variable        label    string  "bridgmanite_120gpa_3500k"
+variable        T        equal   3500.0
+variable        P        equal   1200000.0        # bar
+variable        model    string  "../../potentials/bridgmanite_mace.pt"
+variable        datafile string  "bridgmanite_8x8x8.lammps"
+
+variable        dt       equal   0.0005
+variable        n_npt1   equal   100000
+variable        n_npt2   equal   200000
+variable        n_nvt    equal   100000
+
+timestep        ${dt}
+
+read_data       ${datafile}
+
+mass            1 24.305      # Mg
+mass            2 28.0855     # Si
+mass            3 15.999      # O
+
+pair_style      mliap unified ${model} 0
+pair_coeff      * * Mg Si O
+
+neighbor        2.0 bin
+neigh_modify    delay 0 every 1 check yes
+
+velocity        all create ${T} 12345 mom yes rot yes dist gaussian
+
+thermo          1000
+thermo_style    custom step temp pe ke etotal press pxx pyy pzz vol lx ly lz
+
+restart         50000 ${label}.restart.1 ${label}.restart.2
+
+# stage 1 - loose NPT, get the cell moving toward the target P-T
+dump            D1 all custom 5000 ${label}_stage1_npt.lammpstrj id type q x y z vx vy vz
+dump_modify     D1 sort id
+fix             EQ1 all npt temp ${T} ${T} 0.1 aniso ${P} ${P} 2.0
+run             ${n_npt1}
+unfix           EQ1
+undump          D1
+
+write_data      ${label}_after_npt1.data
+write_restart   ${label}_after_npt1.restart
+
+# stage 2 - longer NPT, let the cell fully settle
+dump            D2 all custom 5000 ${label}_stage2_npt.lammpstrj id type q x y z vx vy vz
+dump_modify     D2 sort id
+fix             EQ2 all npt temp ${T} ${T} 0.1 aniso ${P} ${P} 2.0
+run             ${n_npt2}
+unfix           EQ2
+undump          D2
+
+write_data      ${label}_after_npt2.data
+write_restart   ${label}_after_npt2.restart
+
+# stage 3 - fixed-cell NVT before handing off to production
+reset_timestep  0
+
+dump            D3 all custom 5000 ${label}_stage3_nvt.lammpstrj id type q x y z vx vy vz
+dump_modify     D3 sort id
+fix             EQ3 all nvt temp ${T} ${T} 0.1
+run             ${n_nvt}
+unfix           EQ3
+undump          D3
+
+velocity        all zero linear
+
+write_data      ${label}_eq.data
+write_restart   ${label}_eq.restart

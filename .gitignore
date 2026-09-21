@@ -1,0 +1,24 @@
+# LAMMPS run outputs - large, regenerate them, don't commit
+*.lammpstrj
+*.restart
+*.restart.*
+*.restart1
+*.restart2
+*.data
+log.lammps
+*.log
+
+# trained potentials - see potentials/README.md
+*.pt
+
+# postprocessing outputs
+*.csv
+*.png
+
+# python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# os
+.DS_Store
