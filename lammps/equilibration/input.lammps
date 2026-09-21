@@ -10,8 +10,8 @@ newton          on
 variable        label    string  "bridgmanite_120gpa_3500k"
 variable        T        equal   3500.0
 variable        P        equal   1200000.0        # bar
-variable        model    string  "../../potentials/bridgmanite_mace.pt"
-variable        datafile string  "bridgmanite_8x8x8.lammps"
+variable        model    string  "../../potentials/bridgmanite_ambient_to_lowermantle_v1.model-mliap_lammps.pt"
+variable        datafile string  "../../structures/bridgmanite_120gpa_3500k_8x8x8.lammps"
 
 variable        dt       equal   0.0005
 variable        n_npt1   equal   100000

@@ -9,7 +9,7 @@ newton          on
 # --- edit these per run ---
 variable        label    string  "bridgmanite_120gpa_3500k_run1"
 variable        T        equal   3500.0
-variable        model    string  "../../potentials/bridgmanite_mace.pt"
+variable        model    string  "../../potentials/bridgmanite_ambient_to_lowermantle_v1.model-mliap_lammps.pt"
 
 variable        dt       equal   0.001
 variable        nsettle  equal   20000

@@ -8,8 +8,6 @@
 log.lammps
 *.log
 
-# trained potentials - see potentials/README.md
-*.pt
 
 # postprocessing outputs
 *.csv
