@@ -2,7 +2,7 @@
 
 Green-Kubo molecular dynamics workflow for computing lattice thermal conductivity of minerals, using LAMMPS driven by a machine-learned interatomic potential (MACE) instead of a classical force field.
 
-I put this together while computing thermal conductivity of lower-mantle minerals (bridgmanite, MgO) for my PhD, and kept running into the same gap other people in this space seem to hit: there's plenty written about the Green-Kubo method in papers, and plenty about MLIPs, but not much showing the actual mechanics of wiring the two together in LAMMPS - equilibration, heat flux sampling, and the post-processing that turns a heat-flux time series into a kappa value with a real uncertainty estimate.
+I put this together while computing thermal conductivity of lower-mantle minerals (bridgmanite MgSiO3, postperovskite MgSiO3, MgO) for my PhD, and kept running into the same gap other people in this space seem to hit: there's plenty written about the Green-Kubo method in papers, and plenty about MLIPs, but not much showing the actual mechanics of wiring the two together in LAMMPS - equilibration, heat flux sampling, and the post-processing that turns a heat-flux time series into a kappa value with a real uncertainty estimate.
 
 This repo is that workflow, generalized from what I actually run on our cluster. The worked example is bridgmanite (MgSiO3) at 120 GPa and 3500 K - roughly D'' layer conditions at the base of the mantle - using a MACE potential trained on our own AIMD data. Swap in your own structure, potential, and P-T point and the pipeline carries over.
 
