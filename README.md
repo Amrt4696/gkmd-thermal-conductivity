@@ -13,6 +13,11 @@ This repo is that workflow, generalized from what I actually run on our cluster.
 - `postprocess/kappa_from_heatflux.py` - FFT-based heat flux autocorrelation, Green-Kubo running integral, plateau averaging, anisotropy sanity check
 - `docs/gotchas.md` - the debugging lessons that actually cost me time
 - `SETUP.md` - getting LAMMPS built with an MLIP pair style in the first place, which is the part nobody documents well
+- `structures/`, `potentials/` - the actual starting cell and trained potential used for the worked example
+
+## Model
+
+This repo ships the actual potential and starting structure used for the example above, not a stand-in: `potentials/bridgmanite_ambient_to_lowermantle_v1.model-mliap_lammps.pt` (see `potentials/README.md` for training details and test-set errors) and `structures/bridgmanite_120gpa_3500k_8x8x8.lammps`. Point the scripts at your own model and structure for anything else.
 
 ## Method, briefly
 
